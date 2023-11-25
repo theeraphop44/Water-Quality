@@ -59,53 +59,24 @@ def run_train_page():
         elif Select_Algorithm is "SVM" :
             model = SVC(kernel = 'poly')
         elif Select_Algorithm is "Random Forest":
-            model = RandomForestClassifier(n_jobs=-1,random_state=123)
+            model = RandomForestClassifier(n_jobs=-1,random_state=150)
         elif Select_Algorithm is "DecisionTree":
-            model = DecisionTreeClassifier()
+            model = DecisionTreeClassifier(max_depth=3)
+        elif Select_Algorithm is "KNeighbors":
+            model = KNeighborsClassifier(n_neighbors=5)
+        elif Select_Algorithm is "MLP":
+            model = MLPClassifier(solver='adam',alpha=0.01,learning_rate='constant')
 
         scoring = ['precision', 'recall','f1','roc_auc','accuracy']
         scores = cross_validate(model,X, Y, scoring=scoring,cv=Select_K4,return_train_score=True,return_estimator=True)
-
-        # model.fit(x_train, Y_train)
-        # Y_train_hat = model.predict(x_train)
-        # Y_test_hat = model.predict(x_test)
-
         
         # Output Test
         with col1:
-            st.write(f'test_accuracy max',max(scores['test_accuracy']))
-        
-            st.write("\--------------------------------------------------------------")
-                        
-        #     st.write('-------------------------------------------------------')
-        #     st.write('Confusion matrix')
-        #     cm1 = confusion_matrix(Y_test, Y_test_hat)
-        #     cm1_str = "\n".join(["\t".join(map(str, row)) for row in cm1])
-        #     st.text(cm1_str)
-
-        #     st.write('-------------------------------------------------------')
-        #     st.write('accuracy score')
-            
-        #     st.success(f"test data accuracy score : {accuracy_score(Y_test, Y_test_hat)*100:.2f}")
+            st.success(f'test_accuracy max : {max(scores["test_accuracy"])*100:.2f}')
 
         # # Output Train
         with col2:
-            st.write('train_accuracy mean',scores['train_accuracy'].mean())
-            st.write('train_accuracy ',scores['train_accuracy'])
-            st.write('train_accuracy max',max(scores['train_accuracy']))
-        #     st.write('-------------------------------------------------------')
-        #     st.write('Train performance')
-        #     # st.image(classification_report_train_file_path)
-                    
-        #     st.write('-------------------------------------------------------')
-        #     st.write('Confusion matrix')
-        #     cm2 = confusion_matrix(Y_train, Y_train_hat)
-        #     cm2_str = "\n".join(["\t".join(map(str, row)) for row in cm2])
-        #     st.text(cm2_str)
-
-        #     st.write('-------------------------------------------------------')
-        #     st.write('accuracy score')
-        #     st.success(f"train data accuracy score : {accuracy_score(Y_train, Y_train_hat)*100:.2f}")    
+            st.success(f'train_accuracy max : {max(scores["train_accuracy"])*100:.2f}')
 
     def savemodel():
         return 
@@ -162,6 +133,7 @@ def run_train_page():
         btn_predict_data = st.button("Button Train Model")
     with col3_btn:
         btn_save_model = st.button("Button Save Model")
+    st.markdown("---")
 
     if btn_predict_data:
         predict()
