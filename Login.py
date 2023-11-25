@@ -1,5 +1,6 @@
 import streamlit as st
 from menu.sidebar import sidebar_admin_page, sidebar_user_page
+import sqlite3
 
 def main():
 
@@ -22,31 +23,43 @@ def main():
         elif st.session_state.is_user:
             sidebar_user_page()
 
-  
 def login():
-    x = "admin"
-    y = "123"
-
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
     login_button = st.button("Login")
 
     if login_button:
-        # ตรวจสอบการ login ที่นี่
-        if username == x and password == y:
-            st.success("Login Successful as Admin")
-            st.session_state.is_logged_in = True
-            st.session_state.is_admin = True
-            main()
-        elif username == "user" and password == "123":
-            st.success("Login Successful as User")
-            st.session_state.is_logged_in = True
-            st.session_state.is_user = True
-            main()
-            
+        # ทำการเชื่อมต่อกับฐานข้อมูล
+        conn = sqlite3.connect("./DB/data.db")
+        cursor = conn.cursor()
+
+        # ทำการ query หรือตรวจสอบข้อมูลในฐานข้อมูล
+        query = f"SELECT * FROM user WHERE username='{username}' AND password='{password}'"
+        cursor.execute(query)
+
+        # ดึงข้อมูลที่ได้จาก query
+        result = cursor.fetchone()
+
+        # ตรวจสอบว่า username และ password ถูกต้องหรือไม่
+        if result:
+            st.success("Login Successful!")
+
+            # ตรวจสอบว่าเป็น user หรือ admin
+            if result[3] == 'admin':
+                st.info("Logged in as admin")
+                st.session_state.is_logged_in = True
+                st.session_state.is_admin = True
+                main()
+            else:
+                st.info("Logged in as user")
+                st.session_state.is_logged_in = True
+                st.session_state.is_user = True
+                main()
         else:
             st.error("Username or Password is not correct")
 
+        # ปิดการเชื่อมต่อกับฐานข้อมูล
+        conn.close()
 
 if __name__ == "__main__":
     main()
