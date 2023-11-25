@@ -88,10 +88,9 @@ def run_train_page():
             st.success(f'Train Recall : {max(scores["train_recall"])*100:.2f}')
             st.success(f'Train F1  : {max(scores["train_f1"])*100:.2f}')
             st.success(f'Train ROC  : {max(scores["train_roc_auc"])*100:.2f}')
-            
 
     def savemodel():
-        return 
+        return
 
     # Select Algorithm and Kfold
     col1 , col2 = st.columns(2)
