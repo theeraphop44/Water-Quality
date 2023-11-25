@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from streamlit_option_menu import option_menu
+#from streamlit_option_menu import option_menu
 from menu.Data import run_data_page
 from menu.Chart import run_chart_page
 from menu.Predict_Model import run_predict_page
@@ -20,7 +20,7 @@ def sidebar_admin_page():
     }
 
     with st.sidebar :
-        pages = option_menu(
+        pages = (
             menu_title = "Main Menu",
             options = ["Homepage","Data","Chart","Train Model","Predict Model"],            
             icons=["house","droplet","droplet","droplet","droplet"],
@@ -46,7 +46,7 @@ def sidebar_admin_page():
         if uploaded_file is not None:
             run_data_page(df)
             # with st.sidebar :
-            #     pages = option_menu(
+            #     pages = (
             #         menu_title = None,
             #         options = ["Train Model","Chart"],            
             #         icons=["droplet","droplet"],
