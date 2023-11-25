@@ -13,9 +13,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
-# output 
-from sklearn.metrics import accuracy_score, confusion_matrix,classification_report
-from sklearn.metrics import classification_report, confusion_matrix
 #Over Under : Sampler
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.over_sampling  import  RandomOverSampler
