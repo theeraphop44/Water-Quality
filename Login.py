@@ -1,5 +1,5 @@
 import streamlit as st
-from sidebar import sidebar_admin_page, sidebar_user_page
+from menu.sidebar import sidebar_admin_page, sidebar_user_page
 
 def main():
 
@@ -22,7 +22,6 @@ def main():
         elif st.session_state.is_user:
             sidebar_user_page()
 
-            
   
 def login():
     x = "admin"

@@ -36,13 +36,16 @@ def run_train_page():
         if random_sampler is "null" :
             x_sampler = x
             y_sampler = y
+            
         elif random_sampler is "Under Sampler":
             under = RandomUnderSampler(sampling_strategy=1)
             x_sampler, y_sampler = under.fit_resample(x, y)
+            
         elif random_sampler is "OverSampler":
             oversample = RandomOverSampler(sampling_strategy=1)
             x_sampler, y_sampler = oversample.fit_resample(x, y)
         return x_sampler, y_sampler
+        
         
     # Def 
     def predict():
@@ -52,9 +55,9 @@ def run_train_page():
         Y = np.array(y_sampler)
 
         if Select_Algorithm is "Logistic Regression":
-            model = LogisticRegression(penalty='l2', C=10000,solver='sag')
+            model = LogisticRegression()
         elif Select_Algorithm is "SVM" :
-            model = SVC(kernel = 'poly')
+            model = SVC(kernel = 'linear')
         elif Select_Algorithm is "Random Forest":
             model = RandomForestClassifier(n_jobs=-1,random_state=150)
         elif Select_Algorithm is "DecisionTree":
@@ -69,11 +72,23 @@ def run_train_page():
         
         # Output Test
         with col1:
-            st.success(f'test_accuracy max : {max(scores["test_accuracy"])*100:.2f}')
+            st.success(f'Test Accuracy  : {max(scores["test_accuracy"])*100:.2f}')
+            st.markdown('---')
+            st.success(f'Test Precision : {max(scores["test_precision"])*100:.2f}')
+            st.success(f'Test Recall : {max(scores["test_recall"])*100:.2f}')
+            st.success(f'Test F1  : {max(scores["test_f1"])*100:.2f}')
+            st.success(f'Test ROC  : {max(scores["test_roc_auc"])*100:.2f}')
+            
 
         # # Output Train
         with col2:
-            st.success(f'train_accuracy max : {max(scores["train_accuracy"])*100:.2f}')
+            st.success(f'Train Accuracy  : {max(scores["train_accuracy"])*100:.2f}')
+            st.markdown('---')
+            st.success(f'Train Precision : {max(scores["train_precision"])*100:.2f}')
+            st.success(f'Train Recall : {max(scores["train_recall"])*100:.2f}')
+            st.success(f'Train F1  : {max(scores["train_f1"])*100:.2f}')
+            st.success(f'Train ROC  : {max(scores["train_roc_auc"])*100:.2f}')
+            
 
     def savemodel():
         return 
@@ -88,8 +103,6 @@ def run_train_page():
         placeholder="Select Algorithm...",
         )
 
-        st.write('You selected:', Select_Algorithm)
-
     with col2:
         Select_K4 = st.number_input(label="K-Fold", min_value=2, max_value=30, step=1, format="%d", value=5,key="k-4")
 
@@ -100,7 +113,6 @@ def run_train_page():
         index=0,
         help="Select the sampling method"
     )
-    st.write("You selected:", random_sampler)
 
     # Save file png and show countplot
     if random_sampler :

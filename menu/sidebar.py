@@ -5,8 +5,8 @@ from menu.Data import run_data_page
 from menu.Chart import run_chart_page
 from menu.Predict_Model import run_predict_page
 from menu.Train_Model import run_train_page
-from Homepage_Admin import run_homeadmin_page
-from Homepage_User import run_homeuser_page
+from menu.Homepage_Admin import run_homeadmin_page
+from menu.Homepage_User import run_homeuser_page
 
 def sidebar_admin_page():
     logout = st.sidebar.button("Logout")
