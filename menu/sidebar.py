@@ -100,12 +100,19 @@ def sidebar_user_page():
 
 # Logout 
 def logout_to_loginpage():
-    del st.session_state["df"] 
-    del st.session_state["df_replaced"] 
-    del st.session_state.is_logged_in 
-    del st.session_state.is_admin 
-    del st.session_state.is_user 
-    del st.session_state.save_model 
-    del st.session_state.save_scores
+    if "df" in  st.session_state:
+        del st.session_state["df"] 
+    if "df_replaced" in  st.session_state:
+        del st.session_state["df_replaced"] 
+    if "is_logged_in" in  st.session_state:
+        del st.session_state.is_logged_in 
+    if "is_admin" in  st.session_state:
+        del st.session_state.is_admin 
+    if "is_user" in  st.session_state:
+        del st.session_state.is_user 
+    if "save_model" in  st.session_state:
+        del st.session_state.save_model 
+    if "save_scores" in  st.session_state:
+        del st.session_state.save_scores
 
     st.experimental_rerun()

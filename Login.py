@@ -2,6 +2,7 @@ import streamlit as st
 from menu.sidebar import sidebar_admin_page, sidebar_user_page
 import sqlite3
 
+
 def main():
 
     # ในที่นี้เราจะใช้ Session State เพื่อเก็บข้อมูลสถานะ
@@ -19,9 +20,12 @@ def main():
     else:
         # เมื่อ login สำเร็จ, เลือกแสดงหน้าต่างๆ ตามต้องการ
         if st.session_state.is_admin:
-            sidebar_admin_page()
+               sidebar_admin_page()
+            
         elif st.session_state.is_user:
             sidebar_user_page()
+            
+        
 
 def login():
     username = st.text_input("Username")

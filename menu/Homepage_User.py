@@ -1,10 +1,13 @@
 import streamlit as st
+from stqdm import stqdm
+from time import sleep
 
 # Check if df is already in session state
 if "df" not in st.session_state:
     st.session_state["df"] = None
 
 def run_homeuser_page():
+    
     #Homepage
     st.markdown("# Water Quality")
     cover_image_html = """
