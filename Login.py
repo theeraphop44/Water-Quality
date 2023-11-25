@@ -30,7 +30,7 @@ def login():
 
     if login_button:
         # ทำการเชื่อมต่อกับฐานข้อมูล
-        conn = sqlite3.connect("./Water-Quality/DB/data.db")
+        conn = sqlite3.connect("./DB/data.db")
         cursor = conn.cursor()
 
         # ทำการ query หรือตรวจสอบข้อมูลในฐานข้อมูล
