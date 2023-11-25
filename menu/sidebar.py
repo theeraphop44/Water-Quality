@@ -106,6 +106,6 @@ def logout_to_loginpage():
     del st.session_state.is_admin 
     del st.session_state.is_user 
     del st.session_state.save_model 
-    
+    del st.session_state.save_scores
 
     st.experimental_rerun()

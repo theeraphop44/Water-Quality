@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+import sqlite3
+from joblib import dump, load
 # model 
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_validate
@@ -49,6 +51,11 @@ def run_train_page():
         
     # Def 
     def predict():
+        if "save_model" in st.session_state:
+            st.session_state.save_model = None
+
+        if "save_scores" in st.session_state:
+            st.session_state.save_scores = []
         col1, col2 = st.columns(2)
         #X_train,X_test,y_train,y_test = train_test_split(x_sampler,y_sampler,test_size=0.3,random_state=0)
         X = np.array(x_sampler)
@@ -89,23 +96,57 @@ def run_train_page():
             st.success(f'Train F1  : {max(scores["train_f1"])*100:.2f}')
             st.success(f'Train ROC  : {max(scores["train_roc_auc"])*100:.2f}')
 
-        train_a = f'{max(scores["train_accuracy"])*100:.2f}'
-        test_a = f'{max(scores["test_accuracy"])*100:.2f}'
+        train_acc = f'Train Accuracy  : {max(scores["train_accuracy"])*100:.2f}'
+        test_acc = f'Test Accuracy  : {max(scores["test_accuracy"])*100:.2f}'
+
+        m=max(scores['test_accuracy'])
+        a=scores['test_accuracy']
+        max_indices = np.where(a == m)[0]
+        allmodels = scores['estimator']
+        modelsave = allmodels[int(max_indices)]
 
         if "save_model" not in st.session_state:
-            st.session_state.save_model = []
+            st.session_state.save_model = None
+
+        if "save_scores" not in st.session_state:
+            st.session_state.save_scores = []
         
-        st.session_state.save_model.append((test_a,train_a))
+        st.session_state.save_model = modelsave
+        st.session_state.save_scores.append((test_acc,train_acc))
         
 
     def savemodel():
         if "save_model" not in st.session_state:
             st.write("Pls Train Model")
-        else :
+        else:
             st.write(st.session_state.save_model)
+            st.write(st.session_state.save_scores[0][0])
+            st.write(st.session_state.save_scores[0][0])
+            n=user_name
+            if n == '':
+                st.write("Enter name model")
+            else:
+                conn = sqlite3.connect("./DB/data.db")
+                cursor = conn.cursor()
+                cursor.execute("SELECT COUNT(*) FROM pathmodels WHERE name=?", (n,))
+                count = cursor.fetchone()[0]
+
+                if count > 0:
+                    st.write(f"Model name '{n}' is already in use. Please choose another name.")
+                else:
+                    partname=f"./Models/"+n+".pkl"
+                    cursor.execute('''
+                        INSERT INTO pathmodels (name,path,testaccuracy,trainaccuracy) VALUES (?,?,?,?)
+                    ''',(n,partname,st.session_state.save_scores[0][0],st.session_state.save_scores[0][1]))
+                    conn.commit()
+                    conn.close()
+                    dump(st.session_state.save_model,partname )
+                    st.write(f"Model '{n}' has been saved successfully.")
+
 
     # Select Algorithm and Kfold
     col1 , col2 = st.columns(2)
+    user_name = col1.text_input("Name model:", "")
     with col1:
         Select_Algorithm = st.selectbox(
         "Select Algorithm ",
