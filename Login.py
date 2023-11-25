@@ -20,8 +20,8 @@ def main():
         if st.session_state.is_admin:
             sidebar_admin_page()
         elif st.session_state.is_user:
-            # sidebar_user_page()
-            st.write(st.session_state)
+            sidebar_user_page()
+
             
   
 def login():
