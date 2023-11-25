@@ -89,8 +89,20 @@ def run_train_page():
             st.success(f'Train F1  : {max(scores["train_f1"])*100:.2f}')
             st.success(f'Train ROC  : {max(scores["train_roc_auc"])*100:.2f}')
 
+        train_a = f'{max(scores["train_accuracy"])*100:.2f}'
+        test_a = f'{max(scores["test_accuracy"])*100:.2f}'
+
+        if "save_model" not in st.session_state:
+            st.session_state.save_model = []
+        
+        st.session_state.save_model.append((test_a,train_a))
+        
+
     def savemodel():
-        return
+        if "save_model" not in st.session_state:
+            st.write("Pls Train Model")
+        else :
+            st.write(st.session_state.save_model)
 
     # Select Algorithm and Kfold
     col1 , col2 = st.columns(2)
