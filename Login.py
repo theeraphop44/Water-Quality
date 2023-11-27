@@ -20,7 +20,7 @@ def main():
     else:
         # เมื่อ login สำเร็จ, เลือกแสดงหน้าต่างๆ ตามต้องการ
         if st.session_state.is_admin:
-               sidebar_admin_page()
+            sidebar_admin_page()
             
         elif st.session_state.is_user:
             sidebar_user_page()

@@ -23,5 +23,7 @@ def run_homeadmin_page():
     st.markdown("""
         Drinking water is a vital resource for human health and well-being. It is essential for staying hydrated, maintaining bodily functions, and preventing dehydration. Access to clean and safe drinking water is a basic human right, yet many people around the world do not have access to it. Contaminated water can cause waterborne diseases, such as cholera and dysentery, which can be deadly, particularly for children and those with weakened immune systems. Ensuring that everyone has access to clean drinking water is crucial for public health and a fundamental responsibility of governments worldwide.
                 """)
-    st.caption('Project _nearing_ :red[deadlie]:  🥹:') 
+    st.header("The Problem")
+    st.markdown("Access to clean water is a critical challenge in many parts of the world, including Rwanda. Water quality prediction is important for ensuring the availability of safe and clean water for drinking, agriculture, and other purposes. However, traditional methods for water quality prediction are often time-consuming and costly, and they may not provide accurate and timely information. To address this challenge, the Omdena Rwanda Chapter has initiated a project to develop an automated water quality prediction system using machine learning.")
+    # st.caption('Project _nearing_ :red[deadlie]:  🥹:') 
     
